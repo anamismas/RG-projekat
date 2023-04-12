@@ -34,7 +34,7 @@ const unsigned int SCR_WIDTH = 800;
 const unsigned int SCR_HEIGHT = 600;
 
 // camera
-
+Camera camera(glm::vec3(0.0f, 6.0f, 16.0f));
 float lastX = SCR_WIDTH / 2.0f;
 float lastY = SCR_HEIGHT / 2.0f;
 bool firstMouse = true;
@@ -54,7 +54,6 @@ struct PointLight {
     float quadratic;
 };
 
-Camera camera(glm::vec3(0.0f, 6.0f, 16.0f));
 
 struct ProgramState {
     glm::vec3 clearColor = glm::vec3(0);
@@ -104,7 +103,7 @@ void ProgramState::LoadFromFile(std::string filename) {
 
 ProgramState *programState;
 
-void DrawImGui(ProgramState *programState);
+//void DrawImGui(ProgramState *programState);
 
 int main() {
     // glfw: initialize and configure
@@ -142,8 +141,6 @@ int main() {
     }
 
     glEnable(GL_DEPTH_TEST);
-    //skybox shader
-    Shader skyboxShader("resources/shaders/skybox.vs", "resources/shaders/skybox.fs");
 
 
     // tell stb_image.h to flip loaded texture's on the y-axis (before loading model).
@@ -172,7 +169,13 @@ int main() {
     // build and compile shaders
     // -------------------------
     Shader ourShader("resources/shaders/2.model_lighting.vs", "resources/shaders/2.model_lighting.fs");
+    Shader shader("resources/shaders/instancing.vs", "resources/shaders/instancing.fs");
+    //skybox shader
+    Shader skyboxShader("resources/shaders/skybox.vs", "resources/shaders/skybox.fs");
 
+
+
+    // skybox
     float skyboxVertices[] = {
             -1.0f,  1.0f, -1.0f,
             -1.0f, -1.0f, -1.0f,
@@ -227,7 +230,6 @@ int main() {
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), nullptr);
     glEnableVertexAttribArray(0);
 
-
     vector<std::string> skyboxJPGs = {
             FileSystem::getPath("resources/textures/skybox/right.jpg"),
             FileSystem::getPath("resources/textures/skybox/left.jpg"),
@@ -236,17 +238,27 @@ int main() {
             FileSystem::getPath("resources/textures/skybox/front.jpg"),
             FileSystem::getPath("resources/textures/skybox/back.jpg")
     };
-
     unsigned int cubemapTexture = loadCubemap(skyboxJPGs);
     skyboxShader.use();
     skyboxShader.setInt("skybox", 0);
-
+    //
 
 
     // load models
     // -----------
-    Model ourModel("resources/objects/backpack/backpack.obj");
-    ourModel.SetShaderTextureNamePrefix("material.");
+    //Model ourModel("resources/objects/backpack/backpack.obj");
+    //ourModel.SetShaderTextureNamePrefix("material.");
+
+    Model bee(FileSystem::getPath("resources/objects/bee/10006_Bumblebee_v1_L3.obj"));
+    bee.SetShaderTextureNamePrefix("material.");
+
+    Model daisy(FileSystem::getPath("resources/objects/daisy/10441_Daisy_v1_max2010_iteration-2.obj"));
+    daisy.SetShaderTextureNamePrefix("material.");
+
+    Model duck(FileSystem::getPath("resources/objects/bird2/12248_Bird_v1_L2.obj"));
+    duck.SetShaderTextureNamePrefix("material.");
+
+
 
     PointLight& pointLight = programState->pointLight;
     pointLight.position = glm::vec3(4.0f, 4.0, 0.0);
@@ -258,7 +270,71 @@ int main() {
     pointLight.linear = 0.09f;
     pointLight.quadratic = 0.032f;
 
+    // generate a large list of semi-random model transformation matrices
+    // MULTIPLE BEES
+    // ------------------------------------------------------------------
+    unsigned int amount = 10;
+    glm::mat4* modelMatrices;
+    modelMatrices = new glm::mat4[amount];
+    srand(static_cast<unsigned int>(glfwGetTime())); // initialize random seed
+    float radius = 10.0;
+    float offset = 50.5f;
+    for (unsigned int i = 0; i < amount; i++)
+    {
+        glm::mat4 model = glm::mat4(1.0f);
+        // 1. translation
+        float angle = (float)i / (float)amount * 360.0f;
+        float displacement = (rand() % (int)(2 * offset * 100)) / 100.0f - offset;
+        float x = sin(angle) * radius + displacement;
+        displacement = (rand() % (int)(2 * offset * 100)) / 100.0f - offset;
+        float y = displacement * 0.4f;
+        displacement = (rand() % (int)(2 * offset * 100)) / 100.0f - offset;
+        float z = cos(angle) * radius + displacement;
+        model = glm::translate(model, glm::vec3(x, y, z));
 
+        // 2. scale
+        float scale = static_cast<float>((rand() % 20) / 100.0 + 0.5);
+        model = glm::scale(model, glm::vec3(scale));
+
+        // 3. rotation
+        float rotAngle = static_cast<float>((rand() % 360));
+        model = glm::rotate(model, rotAngle, glm::vec3(0.4f, 0.6f, 0.8f));
+
+        // 4. now add to list of matrices
+        modelMatrices[i] = model;
+    }
+
+    // MULTIPLE DAISIES
+    // ------------------------------------------------------------------
+    unsigned int amount1 = 150;
+    glm::mat4* modelMatrices1;
+    modelMatrices1 = new glm::mat4[amount1];
+    srand(static_cast<unsigned int>(glfwGetTime())); // initialize random seed
+    float radius1 = 10.0;
+    float offset1 = 50.5f;
+    for (unsigned int i = 0; i < amount1; i++)
+    {
+        glm::mat4 model = glm::mat4(1.0f);
+        // 1. translation
+        float angle = (float)i / (float)amount * 360.0f;
+        float displacement = (rand() % (int)(2 * offset1* 100)) / 100.0f - offset1;
+        float x = sin(angle) * radius1 + displacement;
+        displacement = (rand() % (int)(2 * offset1 * 100)) / 100.0f - offset1;
+        float y = -20.0f;
+        displacement = (rand() % (int)(2 * offset1 * 100)) / 100.0f - offset1;
+        float z = cos(angle) * radius1 + displacement;
+        model = glm::translate(model, glm::vec3(x, y, z));
+
+        // 2. scale
+        float scale = static_cast<float>((rand() % 20) / 100.0 + 0.5);
+        model = glm::scale(model, glm::vec3(scale));
+
+        // 3. rotation
+        model = glm::rotate(model, glm::radians(90.0f), glm::vec3(-3.5, 1, 1));
+
+        // 4. now add to list of matrices
+        modelMatrices1[i] = model;
+    }
 
     // draw in wireframe
     //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
@@ -298,19 +374,46 @@ int main() {
         glm::mat4 projection = glm::perspective(glm::radians(programState->camera.Zoom),
                                                 (float) SCR_WIDTH / (float) SCR_HEIGHT, 0.1f, 100.0f);
         glm::mat4 view = programState->camera.GetViewMatrix();
-        ourShader.setMat4("projection", projection);
-        ourShader.setMat4("view", view);
+        shader.setMat4("projection", projection);
+        shader.setMat4("view", view);
 
         // render the loaded model
-        glm::mat4 model = glm::mat4(1.0f);
-        model = glm::translate(model,
+        /*glm::mat4 model = glm::mat4(1.0f);
+        model = glm::translate(mShaderodel,
                                programState->backpackPosition); // translate it down so it's at the center of the scene
         model = glm::scale(model, glm::vec3(programState->backpackScale));    // it's a bit too big for our scene, so scale it down
         ourShader.setMat4("model", model);
-        ourModel.Draw(ourShader);
+        ourModel.Draw(ourShader); */
 
-        if (programState->ImGuiEnabled)
-            DrawImGui(programState);
+        //if (programState->ImGuiEnabled)
+            //DrawImGui(programState);
+
+        shader.use();
+        shader.setMat4("projection", projection);
+        shader.setMat4("view", view);
+
+        // render daisies
+        for (unsigned int i = 0; i < amount1; i++)
+        {
+            shader.setMat4("model", modelMatrices1[i]);
+            daisy.Draw(shader);
+        }
+
+        // render bees
+        for (unsigned int i = 0; i < amount; i++)
+        {
+            shader.setMat4("model", modelMatrices[i]);
+            bee.Draw(shader);
+        }
+
+        // render duck
+        glm::mat4 model1 = glm::mat4(1.0f);
+        model1 = glm::translate(model1, glm::vec3(15.0f, -20.0f, 1.0f));
+        model1 = glm::scale(model1, glm::vec3(0.6f, 0.6f, 0.6f));
+        model1 = glm::rotate(model1, glm::radians(90.0f), glm::vec3(-13.5, 1, 1));
+        shader.setMat4("model", model1);
+        duck.Draw(shader);
+
 
 
         // skybox shader setup
@@ -319,7 +422,6 @@ int main() {
         view = glm::mat4(glm::mat3(camera.GetViewMatrix()));
         skyboxShader.setMat4("view", view);
         skyboxShader.setMat4("projection", projection);
-
         // render skybox cube
         glBindVertexArray(skyboxVAO);
         glActiveTexture(GL_TEXTURE0);
@@ -327,7 +429,7 @@ int main() {
         glDrawArrays(GL_TRIANGLES, 0, 36);
         glBindVertexArray(0);
         glDepthFunc(GL_LESS);
-
+        //
 
 
         // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
@@ -398,7 +500,7 @@ void mouse_callback(GLFWwindow* window, double xpos, double ypos){
 void scroll_callback(GLFWwindow *window, double xoffset, double yoffset) {
     programState->camera.ProcessMouseScroll(yoffset);
 }
-
+/*
 void DrawImGui(ProgramState *programState) {
     ImGui_ImplOpenGL3_NewFrame();
     ImGui_ImplGlfw_NewFrame();
@@ -433,7 +535,7 @@ void DrawImGui(ProgramState *programState) {
     ImGui::Render();
     ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 }
-
+*/
 void key_callback(GLFWwindow *window, int key, int scancode, int action, int mods) {
     if (key == GLFW_KEY_F1 && action == GLFW_PRESS) {
         programState->ImGuiEnabled = !programState->ImGuiEnabled;
@@ -447,20 +549,20 @@ void key_callback(GLFWwindow *window, int key, int scancode, int action, int mod
 }
 
 
-
+// skybox
 unsigned int loadCubemap(vector<std::string> faces){
     unsigned int textureID;
     glGenTextures(1, &textureID);
     glBindTexture(GL_TEXTURE_CUBE_MAP, textureID);
 
     int width, height, nrChannels;
-    for (unsigned int i = 0; i < faces.size(); i++){
+    for (unsigned int i = 0; i < faces.size(); i++) {
         unsigned char *data = stbi_load(faces[i].c_str(), &width, &height, &nrChannels, 0);
         if (data){
             glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
             stbi_image_free(data);
         }
-        else{
+        else {
             std::cout << "Cubemap texture failed to load at path: " << faces[i] << std::endl;
             stbi_image_free(data);
         }
