@@ -249,7 +249,7 @@ int main() {
     };
     unsigned int cubemapTexture = loadCubemap(skyboxJPGs);
 
-
+    // floor
     float planeVertices[] = {
             // positions            // normals         // texcoords
             10.0f, -0.5f,  10.0f,  0.0f, 1.0f, 0.0f,  10.0f,  0.0f,
@@ -261,7 +261,7 @@ int main() {
             10.0f, -0.5f, -10.0f,  0.0f, 1.0f, 0.0f,  10.0f, 10.0f
     };
 
-    // plane VAO
+        // plane VAO
     unsigned int planeVAO, planeVBO;
     glGenVertexArrays(1, &planeVAO);
     glGenBuffers(1, &planeVBO);
@@ -277,51 +277,7 @@ int main() {
     glBindVertexArray(0);
 
 
-    float cubeVertices[] = {
-            // positions          // texture Coords
-            -0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
-            0.5f, -0.5f, -0.5f,  1.0f, 0.0f,
-            0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-            0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-            -0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
-            -0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
-
-            -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-            0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
-            0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
-            0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
-            -0.5f,  0.5f,  0.5f,  0.0f, 1.0f,
-            -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-
-            -0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-            -0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-            -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-            -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-            -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-            -0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-
-            0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-            0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-            0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-            0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-            0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-            0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-
-            -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-            0.5f, -0.5f, -0.5f,  1.0f, 1.0f,
-            0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
-            0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
-            -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-            -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-
-            -0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
-            0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-            0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-            0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-            -0.5f,  0.5f,  0.5f,  0.0f, 0.0f,
-            -0.5f,  0.5f, -0.5f,  0.0f, 1.0f
-    };
-
+    // blending
     float transparentVertices[] = {
             // positions         // texture Coords (swapped y coordinates because texture is flipped upside down)
             0.0f,  0.5f,  0.0f,  0.0f,  0.0f,
@@ -332,17 +288,6 @@ int main() {
             1.0f, -0.5f,  0.0f,  1.0f,  1.0f,
             1.0f,  0.5f,  0.0f,  1.0f,  0.0f
     };
-    // cube VAO
-    unsigned int cubeVAO, cubeVBO;
-    glGenVertexArrays(1, &cubeVAO);
-    glGenBuffers(1, &cubeVBO);
-    glBindVertexArray(cubeVAO);
-    glBindBuffer(GL_ARRAY_BUFFER, cubeVBO);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(cubeVertices), &cubeVertices, GL_STATIC_DRAW);
-    glEnableVertexAttribArray(0);
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0);
-    glEnableVertexAttribArray(1);
-    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3 * sizeof(float)));
 
     // transparent VAO
     unsigned int transparentVAO, transparentVBO;
@@ -362,19 +307,8 @@ int main() {
     // load textures
     // -------------
     unsigned int floorTexture = loadTexture(FileSystem::getPath("resources/textures/grass1.jpg").c_str());
-    unsigned int cubeTexture = loadTexture(FileSystem::getPath("resources/textures/marble.jpg").c_str());
-    unsigned int transparentTexture = loadTexture(FileSystem::getPath("resources/textures/window.png").c_str());
+    unsigned int transparentTexture = loadTexture(FileSystem::getPath("resources/textures/rainbow1.png").c_str());
 
-    // transparent window locations
-    // --------------------------------
-    vector<glm::vec3> windows
-            {
-                    glm::vec3(-1.5f, 0.0f, -0.48f),
-                    glm::vec3( 1.5f, 0.0f, 0.51f),
-                    glm::vec3( 0.0f, 0.0f, 0.7f),
-                    glm::vec3(-0.3f, 0.0f, -2.3f),
-                    glm::vec3( 0.5f, 0.0f, -0.6f)
-            };
 
     // load models
     // -----------
@@ -496,15 +430,6 @@ int main() {
         // -----
         processInput(window);
 
-        // sort the transparent windows before rendering
-        // ---------------------------------------------
-        std::map<float, glm::vec3> sorted;
-        for (unsigned int i = 0; i < windows.size(); i++)
-        {
-            float distance = glm::length(camera.Position - windows[i]);
-            sorted[distance] = windows[i];
-        }
-
         // render
         // ------
         glClearColor(0.1f,0.1f,0.1f,1.0f);
@@ -593,39 +518,21 @@ int main() {
         duck.Draw(shader);
 
 
-        // blending
+        //(discard) BLENDING
         blendingShader.use();
         glm::mat4 model = glm::mat4(1.0f);
         blendingShader.setMat4("projection", projection);
         blendingShader.setMat4("view", view);
 
-        // cubes
-        glBindVertexArray(cubeVAO);
-        glActiveTexture(GL_TEXTURE0);
-        glBindTexture(GL_TEXTURE_2D, cubeTexture);
-        model = glm::translate(model, glm::vec3(-1.0f, -15.0f, -1.0f));
-        model = glm::scale(model, glm::vec3(5.6f, 5.6f, 5.6f));
-
-        blendingShader.setMat4("model", model);
-        glDrawArrays(GL_TRIANGLES, 0, 36);
-        model = glm::mat4(1.0f);
-        model = glm::translate(model, glm::vec3(2.0f, -15.0f, 0.0f));
-        model = glm::scale(model, glm::vec3(15.6f, 15.6f, 15.6f));
-        blendingShader.setMat4("model", model);
-        glDrawArrays(GL_TRIANGLES, 0, 36);
-
-        // windows (from furthest to nearest)
+        // rainbow
         glBindVertexArray(transparentVAO);
         glBindTexture(GL_TEXTURE_2D, transparentTexture);
-        for (std::map<float, glm::vec3>::reverse_iterator it = sorted.rbegin(); it != sorted.rend(); ++it)
-        {
-            model = glm::mat4(1.0f);
-            model = glm::translate(model, it->second);
-            model = glm::scale(model, glm::vec3(5.6f, 5.6f, 5.6f));
-            blendingShader.setMat4("model", model);
-            glDrawArrays(GL_TRIANGLES, 0, 6);
-        }
 
+        model = glm::mat4(1.0f);
+        model = glm::translate(model, glm::vec3(-50.0f, -12.5f, -40.0f));
+        model = glm::scale(model, glm::vec3(150.0f, 150.0f, 150.0f));
+        blendingShader.setMat4("model", model);
+        glDrawArrays(GL_TRIANGLES, 0, 6);
 
 
 
@@ -666,7 +573,6 @@ int main() {
     glDeleteVertexArrays(1,&skyboxVAO);
     glDeleteBuffers(1, &planeVBO);
     glDeleteBuffers(1, &skyboxVBO);
-    glDeleteBuffers(1, &planeVBO);
 
     glfwTerminate();
     return 0;
@@ -679,13 +585,13 @@ void processInput(GLFWwindow *window) {
         glfwSetWindowShouldClose(window, true);
 
     if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
-        camera.ProcessKeyboard(FORWARD, deltaTime);
+        camera.ProcessKeyboard(FORWARD, 4.0 * deltaTime);
     if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
-        camera.ProcessKeyboard(BACKWARD, deltaTime);
+        camera.ProcessKeyboard(BACKWARD, 4.0 * deltaTime);
     if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
-        camera.ProcessKeyboard(LEFT, deltaTime);
+        camera.ProcessKeyboard(LEFT, 4.0 * deltaTime);
     if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
-        camera.ProcessKeyboard(RIGHT, deltaTime);
+        camera.ProcessKeyboard(RIGHT, 4.0 * deltaTime);
 
     // Blinn
     if (glfwGetKey(window, GLFW_KEY_B) == GLFW_PRESS && !blinnKeyPressed)
