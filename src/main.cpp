@@ -489,9 +489,11 @@ int main() {
         floor = glm::scale(floor, glm::vec3(20.0f, 60.0f, 20.0f));
 
         shader.setMat4("model", floor);
+        glEnable(GL_CULL_FACE);
+        glCullFace(GL_FRONT);
         glDrawArrays(GL_TRIANGLES, 0, 6);
         glBindTexture(GL_TEXTURE_2D, 0);
-
+        glDisable(GL_CULL_FACE);
 
 
 
@@ -523,7 +525,8 @@ int main() {
         glm::mat4 model = glm::mat4(1.0f);
         blendingShader.setMat4("projection", projection);
         blendingShader.setMat4("view", view);
-
+        glEnable(GL_CULL_FACE);
+        glCullFace(GL_BACK);
         // rainbow
         glBindVertexArray(transparentVAO);
         glBindTexture(GL_TEXTURE_2D, transparentTexture);
@@ -533,7 +536,7 @@ int main() {
         model = glm::scale(model, glm::vec3(150.0f, 150.0f, 150.0f));
         blendingShader.setMat4("model", model);
         glDrawArrays(GL_TRIANGLES, 0, 6);
-
+        glDisable(GL_CULL_FACE);
 
 
         // skybox shader setup
