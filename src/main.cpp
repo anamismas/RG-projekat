@@ -308,6 +308,7 @@ int main() {
     // -------------
     unsigned int floorTexture = loadTexture(FileSystem::getPath("resources/textures/grass1.jpg").c_str());
     unsigned int transparentTexture = loadTexture(FileSystem::getPath("resources/textures/rainbow1.png").c_str());
+    unsigned int specularMap = loadTexture(FileSystem::getPath("resources/textures/grass1Spec.jpg").c_str());
 
 
     // load models
@@ -408,6 +409,10 @@ int main() {
     skyboxShader.setInt("skybox", 0);
     blendingShader.use();
     blendingShader.setInt("texture1", 0);
+    shader.use();
+    shader.setInt("material.diffuse", 0);
+    shader.setInt("material.specular", 1);
+
 
     // lighting info
     // -------------
@@ -479,6 +484,13 @@ int main() {
         // set light uniforms
         shader.setInt("blinn", blinn);
 
+        // bind diffuse map
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, floorTexture);
+        // bind specular map
+        glActiveTexture(GL_TEXTURE1);
+        glBindTexture(GL_TEXTURE_2D, specularMap);
+
 
         // floor
         glBindVertexArray(planeVAO);
@@ -489,6 +501,7 @@ int main() {
         floor = glm::scale(floor, glm::vec3(20.0f, 60.0f, 20.0f));
 
         shader.setMat4("model", floor);
+        // face culling
         glEnable(GL_CULL_FACE);
         glCullFace(GL_FRONT);
         glDrawArrays(GL_TRIANGLES, 0, 6);
@@ -525,6 +538,7 @@ int main() {
         glm::mat4 model = glm::mat4(1.0f);
         blendingShader.setMat4("projection", projection);
         blendingShader.setMat4("view", view);
+        // face culling
         glEnable(GL_CULL_FACE);
         glCullFace(GL_BACK);
         // rainbow
