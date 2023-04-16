@@ -36,6 +36,14 @@ const unsigned int SCR_HEIGHT = 700;
 bool blinn = false;
 bool blinnKeyPressed = false;
 
+// duck movement
+bool go_left=false;
+bool go_right=false;
+bool front=false;
+bool back=true;
+glm::vec3 duckPosition(15.0f, -15.0f, 1.0f);
+void duckMovement(Camera_Movement direction);
+
 // camera
 Camera camera(glm::vec3(10.0f, 14.0f, 70.0f));
 float lastX = SCR_WIDTH / 2.0f;
@@ -431,9 +439,20 @@ int main() {
 
         // render duck
         glm::mat4 model1 = glm::mat4(1.0f);
-        model1 = glm::translate(model1, glm::vec3(15.0f, -15.0f, 1.0f));
+        model1 = glm::translate(model1, duckPosition);
         model1 = glm::scale(model1, glm::vec3(0.6f, 0.6f, 0.6f));
-        model1 = glm::rotate(model1, glm::radians(90.0f), glm::vec3(-13.5, 1, 1));
+        model1 = glm::rotate(model1, glm::radians(90.0f), glm::vec3(-13.5, 1, 1.0));
+
+        if (front) {
+            model1 = glm::rotate(model1, glm::radians(180.0f), glm::vec3(0.0, 0.0, 1.0));
+        }
+        if (go_left) {
+            model1 = glm::rotate(model1, glm::radians(-90.0f), glm::vec3(0.0, 0.0, 1.0));
+        }
+        if (go_right) {
+            model1 = glm::rotate(model1, glm::radians(90.0f), glm::vec3(0.0, 0.0, 1.0));
+        }
+
         shader.setMat4("model", model1);
         duck.Draw(shader);
 
@@ -514,6 +533,29 @@ void processInput(GLFWwindow *window) {
         camera.ProcessKeyboard(LEFT, 4.0 * deltaTime);
     if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
         camera.ProcessKeyboard(RIGHT, 4.0 * deltaTime);
+
+    // duck movement
+    if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS) {
+        front = true;
+        back = go_right = go_left = false;
+        duckMovement(FORWARD);
+    }
+    if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS) {
+        back = true;
+        front = go_left = go_right = false;
+        duckMovement(BACKWARD);
+    }
+    if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS) {
+        go_left = true;
+        go_right = front = back = false;
+        duckMovement(LEFT);
+    }
+    if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS) {
+        go_right=true;
+        go_left= front= back=false;
+        duckMovement(RIGHT);
+    }
+
 
     // Blinn
     if (glfwGetKey(window, GLFW_KEY_B) == GLFW_PRESS && !blinnKeyPressed)
@@ -683,4 +725,18 @@ unsigned int loadCubemap(vector<std::string> faces){
     glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
 
     return textureID;
+}
+
+void duckMovement(Camera_Movement direction){
+    float v = 10.0f * deltaTime;
+    glm::vec3 s(1.0f, 0.0f, 1.0f);
+
+    if (direction == FORWARD)
+        duckPosition += camera.Front * v * s;
+    if (direction == BACKWARD)
+        duckPosition-= camera.Front * v * s;
+    if (direction == LEFT)
+        duckPosition -= camera.Right * v * s;
+    if (direction == RIGHT)
+        duckPosition += camera.Right * v * s;
 }
