@@ -10,22 +10,52 @@
 4466	4699	1680905602478779462	libs/imgui/CMakeFiles/imgui.dir/src/imgui_impl_glfw.cpp.o	ea20d08a37870fc8
 3	13	1680947369936954766	libs/glad/libglad.a	50f51ed6916ca98a
 4308	8758	1680905606532721401	libs/imgui/CMakeFiles/imgui.dir/src/imgui_draw.cpp.o	cac4302eeeb0a557
-3736	3843	1681594849751211843	/home/ana/Desktop/RG2023/rg p/project_base	97059b3976b7e9a
+3514	3628	1681664247759403528	/home/ana/Desktop/RG2023/rg p/project_base	97059b3976b7e9a
 2	4805	1680947374725199236	CMakeFiles/STB_IMAGE.dir/libs/stb_image.cpp.o	7c02052e1e0d87d7
-1	3736	1681594849639207256	CMakeFiles/project_base.dir/src/main.cpp.o	1ff321c2815d445d
-1	3655	1681595038310917334	CMakeFiles/project_base.dir/src/main.cpp.o	1ff321c2815d445d
-3656	3776	1681595038434922392	/home/ana/Desktop/RG2023/rg p/project_base	97059b3976b7e9a
-2	3512	1681595072544313228	CMakeFiles/project_base.dir/src/main.cpp.o	1ff321c2815d445d
-3512	3615	1681595072652317631	/home/ana/Desktop/RG2023/rg p/project_base	97059b3976b7e9a
-2	3549	1681595211761982318	CMakeFiles/project_base.dir/src/main.cpp.o	1ff321c2815d445d
-3549	3669	1681595211885987363	/home/ana/Desktop/RG2023/rg p/project_base	97059b3976b7e9a
-2	3795	1681595224486499934	CMakeFiles/project_base.dir/src/main.cpp.o	1ff321c2815d445d
-3795	3907	1681595224606504815	/home/ana/Desktop/RG2023/rg p/project_base	97059b3976b7e9a
-2	3978	1681595355725881968	CMakeFiles/project_base.dir/src/main.cpp.o	1ff321c2815d445d
-3978	4093	1681595355845861040	/home/ana/Desktop/RG2023/rg p/project_base	97059b3976b7e9a
-3	3188	1681595435622006573	CMakeFiles/project_base.dir/src/main.cpp.o	1ff321c2815d445d
-3189	3292	1681595435729993010	/home/ana/Desktop/RG2023/rg p/project_base	97059b3976b7e9a
-2	3229	1681596429018427085	CMakeFiles/project_base.dir/src/main.cpp.o	1ff321c2815d445d
-3229	3347	1681596429142426021	/home/ana/Desktop/RG2023/rg p/project_base	97059b3976b7e9a
-2	3185	1681596511925801318	CMakeFiles/project_base.dir/src/main.cpp.o	1ff321c2815d445d
-3185	3289	1681596512033800610	/home/ana/Desktop/RG2023/rg p/project_base	97059b3976b7e9a
+2	3514	1681664247643402861	CMakeFiles/project_base.dir/src/main.cpp.o	1ff321c2815d445d
+2	4655	1681664265063496065	CMakeFiles/project_base.dir/src/main.cpp.o	1ff321c2815d445d
+4655	4759	1681664265171496600	/home/ana/Desktop/RG2023/rg p/project_base	97059b3976b7e9a
+2	4915	1681664281351571383	CMakeFiles/project_base.dir/src/main.cpp.o	1ff321c2815d445d
+4915	5042	1681664281483571948	/home/ana/Desktop/RG2023/rg p/project_base	97059b3976b7e9a
+1	3680	1681664293463620417	CMakeFiles/project_base.dir/src/main.cpp.o	1ff321c2815d445d
+3680	3786	1681664293571620828	/home/ana/Desktop/RG2023/rg p/project_base	97059b3976b7e9a
+1	3474	1681664304359659699	CMakeFiles/project_base.dir/src/main.cpp.o	1ff321c2815d445d
+3474	3580	1681664304467660065	/home/ana/Desktop/RG2023/rg p/project_base	97059b3976b7e9a
+2	4996	1681664317311700715	CMakeFiles/project_base.dir/src/main.cpp.o	1ff321c2815d445d
+4996	5113	1681664317431701066	/home/ana/Desktop/RG2023/rg p/project_base	97059b3976b7e9a
+2	5083	1681664335827749215	CMakeFiles/project_base.dir/src/main.cpp.o	1ff321c2815d445d
+5083	5223	1681664335975749558	/home/ana/Desktop/RG2023/rg p/project_base	97059b3976b7e9a
+2	5021	1681664359963795776	CMakeFiles/project_base.dir/src/main.cpp.o	1ff321c2815d445d
+5021	5157	1681664360103795993	/home/ana/Desktop/RG2023/rg p/project_base	97059b3976b7e9a
+3	5039	1681664405975837958	CMakeFiles/project_base.dir/src/main.cpp.o	1ff321c2815d445d
+5039	5168	1681664406107837999	/home/ana/Desktop/RG2023/rg p/project_base	97059b3976b7e9a
+3	5056	1681664478915800637	CMakeFiles/project_base.dir/src/main.cpp.o	1ff321c2815d445d
+5056	5195	1681664479059800456	/home/ana/Desktop/RG2023/rg p/project_base	97059b3976b7e9a
+2	3766	1681664490967784122	CMakeFiles/project_base.dir/src/main.cpp.o	1ff321c2815d445d
+3766	3871	1681664491079783956	/home/ana/Desktop/RG2023/rg p/project_base	97059b3976b7e9a
+2	5018	1681664506579758908	CMakeFiles/project_base.dir/src/main.cpp.o	1ff321c2815d445d
+5018	5155	1681664506723758657	/home/ana/Desktop/RG2023/rg p/project_base	97059b3976b7e9a
+2	5000	1681664528063717608	CMakeFiles/project_base.dir/src/main.cpp.o	1ff321c2815d445d
+5000	5117	1681664528183717356	/home/ana/Desktop/RG2023/rg p/project_base	97059b3976b7e9a
+2	5127	1681664544863680339	CMakeFiles/project_base.dir/src/main.cpp.o	1ff321c2815d445d
+5127	5264	1681664544999680021	/home/ana/Desktop/RG2023/rg p/project_base	97059b3976b7e9a
+2	5156	1681664579779590193	CMakeFiles/project_base.dir/src/main.cpp.o	1ff321c2815d445d
+5156	5294	1681664579919589800	/home/ana/Desktop/RG2023/rg p/project_base	97059b3976b7e9a
+2	5039	1681664635571415185	CMakeFiles/project_base.dir/src/main.cpp.o	1ff321c2815d445d
+5039	5150	1681664635683414799	/home/ana/Desktop/RG2023/rg p/project_base	97059b3976b7e9a
+1	5002	1681664660599326039	CMakeFiles/project_base.dir/src/main.cpp.o	1ff321c2815d445d
+5003	5136	1681664660735325539	/home/ana/Desktop/RG2023/rg p/project_base	97059b3976b7e9a
+2	5019	1681664697091617906	CMakeFiles/project_base.dir/src/main.cpp.o	1ff321c2815d445d
+5019	5156	1681664697235622861	/home/ana/Desktop/RG2023/rg p/project_base	97059b3976b7e9a
+2	4228	1681664710832084542	CMakeFiles/project_base.dir/src/main.cpp.o	1ff321c2815d445d
+4229	4341	1681664710948088430	/home/ana/Desktop/RG2023/rg p/project_base	97059b3976b7e9a
+2	4994	1681664731504762417	CMakeFiles/project_base.dir/src/main.cpp.o	1ff321c2815d445d
+4994	5125	1681664731644766912	/home/ana/Desktop/RG2023/rg p/project_base	97059b3976b7e9a
+3	4970	1681664823231447150	CMakeFiles/project_base.dir/src/main.cpp.o	1ff321c2815d445d
+4970	5104	1681664823371450872	/home/ana/Desktop/RG2023/rg p/project_base	97059b3976b7e9a
+2	4511	1681664849564128863	CMakeFiles/project_base.dir/src/main.cpp.o	1ff321c2815d445d
+4511	4614	1681664849672131584	/home/ana/Desktop/RG2023/rg p/project_base	97059b3976b7e9a
+2	4881	1681664886649028124	CMakeFiles/project_base.dir/src/main.cpp.o	1ff321c2815d445d
+4881	4996	1681664886765030831	/home/ana/Desktop/RG2023/rg p/project_base	97059b3976b7e9a
+3	5147	1681665260363057987	CMakeFiles/project_base.dir/src/main.cpp.o	1ff321c2815d445d
+5147	5289	1681665260511059539	/home/ana/Desktop/RG2023/rg p/project_base	97059b3976b7e9a

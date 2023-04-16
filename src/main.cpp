@@ -47,68 +47,6 @@ bool firstMouse = true;
 float deltaTime = 0.0f;
 float lastFrame = 0.0f;
 
-
-/*
-struct PointLight {
-    glm::vec3 position;
-    glm::vec3 ambient;
-    glm::vec3 diffuse;
-    glm::vec3 specular;
-
-    float constant;
-    float linear;
-    float quadratic;
-};
-
-
-struct ProgramState {
-    glm::vec3 clearColor = glm::vec3(0);
-    bool ImGuiEnabled = false;
-    Camera camera;
-    bool CameraMouseMovementUpdateEnabled = true;
-    glm::vec3 backpackPosition = glm::vec3(0.0f);
-    float backpackScale = 1.0f;
-    PointLight pointLight;
-    ProgramState()
-            : camera(glm::vec3(0.0f, 0.0f, 3.0f)) {}
-
-    void SaveToFile(std::string filename);
-
-    void LoadFromFile(std::string filename);
-};
-
-void ProgramState::SaveToFile(std::string filename) {
-    std::ofstream out(filename);
-    out << clearColor.r << '\n'
-        << clearColor.g << '\n'
-        << clearColor.b << '\n'
-        << ImGuiEnabled << '\n'
-        << camera.Position.x << '\n'
-        << camera.Position.y << '\n'
-        << camera.Position.z << '\n'
-        << camera.Front.x << '\n'
-        << camera.Front.y << '\n'
-        << camera.Front.z << '\n';
-}
-
-void ProgramState::LoadFromFile(std::string filename) {
-    std::ifstream in(filename);
-    if (in) {
-        in >> clearColor.r
-           >> clearColor.g
-           >> clearColor.b
-           >> ImGuiEnabled
-           >> camera.Position.x
-           >> camera.Position.y
-           >> camera.Position.z
-           >> camera.Front.x
-           >> camera.Front.y
-           >> camera.Front.z;
-    }
-}
-
-ProgramState *programState;
-*/
 //void DrawImGui(ProgramState *programState);
 
 int main() {
@@ -153,25 +91,16 @@ int main() {
 
     // tell stb_image.h to flip loaded texture's on the y-axis (before loading model).
     stbi_set_flip_vertically_on_load(false);
-
-    /*programState = new ProgramState;
-    programState->LoadFromFile("resources/program_state.txt");
-    if (programState->ImGuiEnabled) {
-        glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
-    }
+    /*
     // Init Imgui
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
     ImGuiIO &io = ImGui::GetIO();
     (void) io;
 
-
-
     ImGui_ImplGlfw_InitForOpenGL(window, true);
     ImGui_ImplOpenGL3_Init("#version 330 core");
 */
-    // configure global opengl state
-    // -----------------------------
 
     // build and compile shaders
     // -------------------------
@@ -308,7 +237,7 @@ int main() {
     // -------------
     unsigned int floorTexture = loadTexture(FileSystem::getPath("resources/textures/grass1.jpg").c_str());
     unsigned int transparentTexture = loadTexture(FileSystem::getPath("resources/textures/rainbow1.png").c_str());
-    unsigned int specularMap = loadTexture(FileSystem::getPath("resources/textures/grass1Spec.jpg").c_str());
+    unsigned int specularMap = loadTexture(FileSystem::getPath("resources/textures/grass1Spec.jp").c_str());
 
 
     // load models
@@ -322,18 +251,6 @@ int main() {
     Model duck(FileSystem::getPath("resources/objects/bird2/12248_Bird_v1_L2.obj"));
     duck.SetShaderTextureNamePrefix("material.");
 
-
-/*
-    PointLight& pointLight = programState->pointLight;
-    pointLight.position = glm::vec3(4.0f, 4.0, 0.0);
-    pointLight.ambient = glm::vec3(0.1, 0.1, 0.1);
-    pointLight.diffuse = glm::vec3(0.6, 0.6, 0.6);
-    pointLight.specular = glm::vec3(1.0, 1.0, 1.0);
-
-    pointLight.constant = 1.0f;
-    pointLight.linear = 0.09f;
-    pointLight.quadratic = 0.032f;
-*/
 
     // generate a large list of semi-random model transformation matrices
     // MULTIPLE BEES
@@ -416,8 +333,9 @@ int main() {
 
     // lighting info
     // -------------
-    //glm::vec3 lightPos(0.0f, 0.0, 0.0);
-    glm::vec3 lightPos(50.0f, 40.0f, -300.0f);
+    glm::vec3 lightPos(0.0f, 50.0, 400.0);
+
+
     // draw in wireframe
     //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
@@ -440,37 +358,23 @@ int main() {
         glClearColor(0.1f,0.1f,0.1f,1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-        // don't forget to enable shader before setting uniforms
-/*
-        ourShader.use();
-        pointLight.position = glm::vec3(4.0 * cos(currentFrame), 4.0f, 4.0 * sin(currentFrame));
-        ourShader.setVec3("pointLight.position", pointLight.position);
-        ourShader.setVec3("pointLight.ambient", pointLight.ambient);
-        ourShader.setVec3("pointLight.diffuse", pointLight.diffuse);
-        ourShader.setVec3("pointLight.specular", pointLight.specular);
-        ourShader.setFloat("pointLight.constant", pointLight.constant);
-        ourShader.setFloat("pointLight.linear", pointLight.linear);
-        ourShader.setFloat("pointLight.quadratic", pointLight.quadratic);
-        ourShader.setVec3("viewPosition", programState->camera.Position);
-        ourShader.setFloat("material.shininess", 32.0f);
-        // view/projection transformations
-        glm::mat4 projection = glm::perspective(glm::radians(programState->camera.Zoom),
-                                                (float) SCR_WIDTH / (float) SCR_HEIGHT, 0.1f, 100.0f);
-        glm::mat4 view = programState->camera.GetViewMatrix();
-        ourShader.setMat4("projection", projection);
-        ourShader.setMat4("view", view);
-*/
-
 
         //if (programState->ImGuiEnabled)
             //DrawImGui(programState);
 
         shader.use();
+        // lighting
         shader.setVec3("viewPos", camera.Position);
         shader.setVec3("light.position", lightPos);
-        shader.setVec3("light.specular", 1.2f,1.2f,1.2f);
-        shader.setVec3("light.ambient", 0.85f,0.85f,0.85f);
-        shader.setVec3("light.diffuse",0.1f,0.1f,0.1f);
+        shader.setVec3("light.direction", camera.Front);
+        shader.setFloat("light.cutOff", glm::cos(glm::radians(12.5f)));
+        shader.setFloat("light.outerCutOff", glm::cos(glm::radians(17.5f)));
+        shader.setVec3("light.specular", 12.0f,11.0f,11.0f);
+        shader.setVec3("light.ambient", 0.9f,0.9f,0.9f);
+        shader.setVec3("light.diffuse",0.9f,0.9f,0.9f);
+        shader.setFloat("light.constant", 1.0f);
+        shader.setFloat("light.linear", 0.3f);
+        shader.setFloat("light.quadratic", 0.1f);
         shader.setFloat("material.shininess", 64.0f);
 
 
@@ -481,21 +385,21 @@ int main() {
         shader.setMat4("projection", projection);
         shader.setMat4("view", view);
 
+
+        shader.setMat4("model",floor);
+
         // set light uniforms
         shader.setInt("blinn", blinn);
 
+
+        // floor
         // bind diffuse map
-        glActiveTexture(GL_TEXTURE0);
+        glBindVertexArray(planeVAO);
+        glEnable(GL_TEXTURE_2D);
         glBindTexture(GL_TEXTURE_2D, floorTexture);
         // bind specular map
         glActiveTexture(GL_TEXTURE1);
         glBindTexture(GL_TEXTURE_2D, specularMap);
-
-
-        // floor
-        glBindVertexArray(planeVAO);
-        glEnable(GL_TEXTURE_2D);
-        glBindTexture(GL_TEXTURE_2D, floorTexture);
         floor = glm::mat4(1.0f);
         floor = glm::translate(floor, glm::vec3(0.0f, 15.0f, 0.0f));
         floor = glm::scale(floor, glm::vec3(20.0f, 60.0f, 20.0f));
@@ -510,6 +414,7 @@ int main() {
 
 
 
+        // RENDER MODELS
         // render daisies
         for (unsigned int i = 0; i < amount1; i++)
         {
