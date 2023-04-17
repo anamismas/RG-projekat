@@ -12,4 +12,8 @@
 
 # Uputstvo:
 - WASD - pomeranje kamere
+- Strelice - kretanje patke
 - B - Blinn-Phong on/off
+
+# Video:
+https://www.youtube.com/watch?v=Kxld0ntlak4
